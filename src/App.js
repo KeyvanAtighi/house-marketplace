@@ -1,4 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// tostify css
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+
 // pages
 import Explore from "./pages/Explore";
 import Offers from "./pages/Offers";
@@ -24,6 +29,8 @@ function App() {
           </Routes>
           <ButtonNavBar />
         </Router>
+
+        <ToastContainer autoClose={3000} pauseOnFocusLoss={false} rtl />
       </div>
     </>
   );
