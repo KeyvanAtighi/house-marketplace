@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MdRemoveRedEye } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { HashLoader } from "react-spinners";
 
 // firebase
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -10,6 +11,7 @@ function SignIn() {
   // hooks
   const [showPass, setShowPass] = useState(false);
   const [showError, setShowError] = useState({ status: false, message: "" });
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,6 +30,8 @@ function SignIn() {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
+
       const auth = getAuth();
 
       const userCredential = await signInWithEmailAndPassword(
@@ -37,11 +41,10 @@ function SignIn() {
       );
 
       if (userCredential.user) {
+        setIsLoading(false);
         setShowError({ ...showError, status: false });
         toast.success("با موفقیت وارد حساب کاربری خود شدید!");
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
+        navigate("/");
       }
     } catch (error) {
       setShowError({
@@ -107,6 +110,12 @@ function SignIn() {
           رمز خود را فراموش کرده اید؟
         </Link>
       </form>
+      {/* loading spinner */}
+      {isLoading ? (
+        <div className="flex justify-center">
+          <HashLoader color="#36d7b7" />
+        </div>
+      ) : null}
     </div>
   );
 }

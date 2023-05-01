@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MdRemoveRedEye } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { HashLoader } from "react-spinners";
 
 // firebase
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -13,6 +14,7 @@ function SignUp() {
 
   const [showPass, setShowPass] = useState(false);
   const [showError, setShowError] = useState({ status: false, message: "" });
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,6 +34,8 @@ function SignUp() {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
+
       const auth = getAuth();
 
       const userCredential = await createUserWithEmailAndPassword(
@@ -49,11 +53,10 @@ function SignUp() {
 
       await setDoc(doc(db, "users", user.uid), formDataCopy);
 
+      setIsLoading(false);
       setShowError({ ...showError, status: false });
       toast.success("حساب کاربری ایجاد شد");
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      navigate("/");
     } catch (error) {
       setShowError({
         status: true,
@@ -121,6 +124,12 @@ function SignUp() {
           ایجاد حساب کاربری جدید
         </button>
       </form>
+      {/* loading spinner */}
+      {isLoading ? (
+        <div className="flex justify-center">
+          <HashLoader color="#36d7b7" />
+        </div>
+      ) : null}
     </div>
   );
 }
