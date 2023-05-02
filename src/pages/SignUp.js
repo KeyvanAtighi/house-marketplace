@@ -5,7 +5,11 @@ import { toast } from "react-toastify";
 import { HashLoader } from "react-spinners";
 
 // firebase
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
 
@@ -44,6 +48,8 @@ function SignUp() {
         password
       );
 
+      updateProfile(auth.currentUser, { displayName: name });
+
       const user = userCredential.user;
 
       // create a copy to set in firestore without pass
@@ -67,7 +73,7 @@ function SignUp() {
 
   return (
     // container
-    <div className="w-96 h-[500px] mx-auto my-20 border-2 rounded-md shadow-md">
+    <div className="w-96 h-[500px] mx-auto my-20 border-2 rounded-md shadow-md p-5">
       {/* sign in/sign out header */}
       <header className="flex items-center">
         <Link to={"/signin"} className="font-medium text-xl text-gray-800/20">
