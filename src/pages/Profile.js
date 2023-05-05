@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { PulseLoader } from "react-spinners";
 
 // firebase
-import { getAuth, updateProfile } from "firebase/auth";
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase.config";
 
@@ -42,6 +42,7 @@ function Profile() {
       }
       setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       toast.error(error.code);
     }
   };

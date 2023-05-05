@@ -8,7 +8,7 @@ import {
 function ButtonNavBar() {
   const navigate = useNavigate();
   return (
-    <div className="btm-nav btm-nav-sm w-72 m-auto rounded-3xl bottom-5 shadow-xl">
+    <div className="btm-nav btm-nav-sm w-72 mx-auto border-2 rounded-3xl bottom-5 shadow-xl">
       <button
         className={`border-e-2 border-e-gray-800/10 rounded-s-3xl hover:bg-gray-800/5 ${
           window.location.pathname === "/profile" && "bg-gray-800/5"
