@@ -3,6 +3,8 @@ import { MdRemoveRedEye } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { HashLoader } from "react-spinners";
+// components
+import OAuth from "../components/OAuth";
 
 // firebase
 import {
@@ -64,6 +66,7 @@ function SignUp() {
       toast.success("حساب کاربری ایجاد شد");
       navigate("/");
     } catch (error) {
+      setIsLoading(false);
       setShowError({
         status: true,
         message: error.code.split("/")[1].replace("-", " "),
@@ -125,10 +128,12 @@ function SignUp() {
           </div>
         ) : null}
         {/* submit button */}
-
-        <button type="submit" className="btn btn-accent text-white mt-10 mb-2">
-          ایجاد حساب کاربری جدید
-        </button>
+        <div className="flex justify-between items-center mt-10 mb-2 gap-2">
+          <button type="submit" className="btn btn-accent text-white flex-1">
+            ورود به حساب کاربری
+          </button>
+          <OAuth />
+        </div>
       </form>
       {/* loading spinner */}
       {isLoading ? (

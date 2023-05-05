@@ -3,6 +3,8 @@ import { MdRemoveRedEye } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { HashLoader } from "react-spinners";
+// components
+import OAuth from "../components/OAuth";
 
 // firebase
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -47,9 +49,14 @@ function SignIn() {
         navigate("/");
       }
     } catch (error) {
+      setIsLoading(false);
       setShowError({
         status: true,
         message: error.code.split("/")[1].replace("-", " "),
+      });
+      setFormData({
+        ...formData,
+        password: "",
       });
     }
   };
@@ -84,6 +91,9 @@ function SignIn() {
             placeholder="رمز عبور"
             className="input input-bordered w-full  focus:outline-none focus:border-2 focus:border-accent"
             onChange={onChange}
+            onFocus={() => {
+              setShowError({ status: false, message: "" });
+            }}
           />
           <span
             className="absolute px-5 cursor-pointer"
@@ -99,9 +109,12 @@ function SignIn() {
           </div>
         ) : null}
         {/* submit button */}
-        <button type="submit" className="btn btn-accent text-white mt-10 mb-2">
-          ورود به حساب کاربری
-        </button>
+        <div className="flex justify-between items-center mt-10 mb-2 gap-2">
+          <button type="submit" className="btn btn-accent text-white flex-1">
+            ورود به حساب کاربری
+          </button>
+          <OAuth />
+        </div>
         {/* forgot password link */}
         <Link
           to="/forgotpassword"
