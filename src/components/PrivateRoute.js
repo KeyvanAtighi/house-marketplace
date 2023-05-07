@@ -5,7 +5,11 @@ import { HashLoader } from "react-spinners";
 const PrivateRoute = () => {
   const { loggedIn, checkingStatus } = useAuthStatus();
   if (checkingStatus) {
-    return <HashLoader />;
+    return (
+      <div className="flex h-screen justify-center items-center">
+        <HashLoader color="#36d7b7" />;
+      </div>
+    );
   }
   return loggedIn ? <Outlet /> : <Navigate to="/signin" />;
 };

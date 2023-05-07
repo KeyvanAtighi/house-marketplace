@@ -17,6 +17,7 @@ function Profile() {
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
   });
+  // TO-DO: save prev data and set back to input values when update fails
   const [savedFormData, setSavedFormData] = useState(formData);
   const navigate = useNavigate();
 
@@ -28,7 +29,8 @@ function Profile() {
     navigate("/signin");
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (e) => {
+    setSavedFormData(formData);
     try {
       setIsLoading(true);
       if (auth.currentUser.displayName !== name) {
@@ -58,7 +60,7 @@ function Profile() {
     <>
       <div className="p-5">
         <header className="flex justify-between items-center mb-5">
-          <h1 className="text-3xl font-bold">پروفایل من</h1>
+          <h1 className="text-2xl font-semibold text-gray-500">پروفایل من</h1>
           <button
             className="btn btn-outline text-accent hover:bg-accent hover:border-accent btn-xs"
             onClick={onLogout}
@@ -67,8 +69,29 @@ function Profile() {
           </button>
         </header>
         <main>
-          <div className="card border-2 rounded-md shadow-md p-5">
-            <div className="flex justify-end h-6 transition-all duration-500">
+          <div className="card rounded-md p-5 bg-base-200">
+            <form>
+              <label className="label text-accent text-xs">نام کاربری</label>
+              <input
+                type="text"
+                id="name"
+                disabled={!update}
+                value={name}
+                className="input input-bordered input-accent w-full focus:outline-none disabled:bg-white shadow-md"
+                onChange={onInputChange}
+              />
+              <label className="label text-accent text-xs mt-2">ایمیل</label>
+              <div className="tooltip w-full" data-tip="ایمیل قابل تغییر نیست">
+                <input
+                  type="text"
+                  id="email"
+                  disabled
+                  value={email}
+                  className="input input-bordered input-accent w-full focus:outline-none disabled:bg-white shadow-md"
+                />
+              </div>
+            </form>
+            <div className="flex justify-end h-6  mt-6">
               {isLoading ? (
                 <PulseLoader
                   color="#36d7b7"
@@ -78,7 +101,7 @@ function Profile() {
                 />
               ) : (
                 <button
-                  className="btn btn-outline btn-xs w-max transition-all duration-500"
+                  className="btn btn-sm shadow-md w-max"
                   onClick={() => {
                     update && onSubmit();
                     setUpdate(!update);
@@ -88,31 +111,6 @@ function Profile() {
                 </button>
               )}
             </div>
-            <form>
-              <label className="label text-accent text-xs">نام کاربری</label>
-              <input
-                type="text"
-                id="name"
-                disabled={!update}
-                value={name}
-                className="input input-bordered input-accent w-full focus:outline-none disabled:bg-white"
-                onChange={onInputChange}
-              />
-              <div className="divider"></div>
-              <label className="label text-accent text-xs">ایمیل</label>
-              <div
-                className="tooltip tooltip-error w-full"
-                data-tip="ایمیل قابل تغییر نیست"
-              >
-                <input
-                  type="text"
-                  id="email"
-                  disabled
-                  value={email}
-                  className="input input-bordered input-accent w-full focus:outline-none disabled:bg-white "
-                />
-              </div>
-            </form>
           </div>
         </main>
       </div>
